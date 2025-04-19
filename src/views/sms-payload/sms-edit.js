@@ -22,6 +22,8 @@ import Loading from '../../components/loading';
 const options = [
   { title: 'firebase', value: 'firebase' },
   { title: 'twilio', value: 'twilio' },
+  { title: 'smilesms', value: 'smilesms' },
+
 ];
 
 export default function SmsPayloadEdit() {
@@ -334,6 +336,65 @@ export default function SmsPayloadEdit() {
                     <Form.Item
                       label={t('twilio_number')}
                       name='twilio_number'
+                      rules={[
+                        {
+                          required: true,
+                          message: t('required'),
+                        },
+                      ]}
+                    >
+                      <Input className='w-100' />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={12}>
+                    <Form.Item
+                      label={t('default')}
+                      name='default'
+                      valuePropName='checked'
+                    >
+                      <Switch />
+                    </Form.Item>
+                  </Col>
+                </>
+              )}
+
+              {type === 'smilesms' && (
+                <>
+                  <Col span={12}>
+                    <Form.Item
+                      label={t('smilesms_user')}
+                      name='smilesms_user'
+                      rules={[
+                        {
+                          required: true,
+                          message: t('required'),
+                        },
+                      ]}
+                    >
+                      <Input min={0} className='w-100' />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={12}>
+                    <Form.Item
+                      label={t('smilesms_pass')}
+                      name='smilesms_pass'
+                      rules={[
+                        {
+                          required: true,
+                          message: t('required'),
+                        },
+                      ]}
+                    >
+                      <Input className='w-100' />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={12}>
+                    <Form.Item
+                      label={t('smilesms_number_id')}
+                      name='smilesms_number_id'
                       rules={[
                         {
                           required: true,

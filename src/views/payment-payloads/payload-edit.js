@@ -364,6 +364,54 @@ const PaymentPayloadEdit = () => {
                       </Form.Item>
                     </Col>
                   </>
+                ) : activePayment?.label === 'Odero' ? (
+                  <>
+                    <Col span={12}>
+                      <Form.Item
+                        label={t('odero.pk')}
+                        name='odero_pk'
+                        rules={[{ required: true, message: t('required') }]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item
+                        label={t('odero.sk')}
+                        name='odero_sk'
+                        rules={[{ required: true, message: t('required') }]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>{' '}
+                    <Col span={12}>
+                      <Form.Item
+                        label={t('currency')}
+                        name='currency'
+                        rules={[{ required: true, message: t('required') }]}
+                      >
+                        <AsyncSelect
+                          placeholder={t('select.currency')}
+                          valuePropName='label'
+                          defaultValue={{
+                            value: defaultCurrency.id,
+                            label: defaultCurrency.title,
+                          }}
+                          fetchOptions={() =>
+                            currencyService.getAll().then(({ data }) => {
+                              return data
+                                .filter((item) => item.active)
+                                .map((item) => ({
+                                  value: item.id,
+                                  label: `${item.title}`,
+                                  key: item.id,
+                                }));
+                            })
+                          }
+                        />
+                      </Form.Item>
+                    </Col>
+                  </>
                 ) : activePayment?.label === 'razorpay' ? (
                   <>
                     <Col span={12}>

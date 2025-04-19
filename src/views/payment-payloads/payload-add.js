@@ -91,6 +91,8 @@ export default function PaymentPayloadAdd() {
     return paymentService
       .getAll()
       .then(({ data }) => {
+        console.log({ data });
+
         const body = data
           .filter((item) => item.tag !== 'wallet')
           .filter((item) => item.tag !== 'cash')
@@ -109,6 +111,7 @@ export default function PaymentPayloadAdd() {
   }, []);
 
   const handleAddIcon = (data) => {
+    console.log({ data });
     switch (data) {
       case 'Paypal':
         return <FaPaypal size={80} />;
@@ -127,6 +130,8 @@ export default function PaymentPayloadAdd() {
 
   const handleChangePayment = (e) => {
     const selectedPayment = paymentList.find((payment) => payment.value === e);
+    console.log({ selectedPayment });
+
     switch (selectedPayment.label) {
       case 'Paypal': {
         form.setFieldsValue({
@@ -136,6 +141,13 @@ export default function PaymentPayloadAdd() {
             label: defaultCurrency?.title,
             value: defaultCurrency?.id,
           },
+        });
+        break;
+      }
+      case 'Odero': {
+        console.log('odero');
+        form.setFieldsValue({
+          currency: defaultCurrency?.title,
         });
         break;
       }
@@ -332,6 +344,8 @@ export default function PaymentPayloadAdd() {
                         }}
                         fetchOptions={() =>
                           currencyService.getAll().then(({ data }) => {
+                            console.log('2-ci data:', data);
+
                             return data
                               .filter((item) => item.active)
                               .map((item) => ({
@@ -884,6 +898,54 @@ export default function PaymentPayloadAdd() {
                       valuePropName='checked'
                     >
                       <Switch />
+                    </Form.Item>
+                  </Col>
+                </>
+              ) : activePayment?.label === 'Odero' ? (
+                <>
+                  <Col span={12}>
+                    <Form.Item
+                      label={t('odero.pk')}
+                      name='odero_pk'
+                      rules={[{ required: true, message: t('required') }]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item
+                      label={t('odero.sk')}
+                      name='odero_sk'
+                      rules={[{ required: true, message: t('required') }]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>{' '}
+                  <Col span={12}>
+                    <Form.Item
+                      label={t('currency')}
+                      name='currency'
+                      rules={[{ required: true, message: t('required') }]}
+                    >
+                      <AsyncSelect
+                        placeholder={t('select.currency')}
+                        valuePropName='label'
+                        defaultValue={{
+                          value: defaultCurrency.id,
+                          label: defaultCurrency.title,
+                        }}
+                        fetchOptions={() =>
+                          currencyService.getAll().then(({ data }) => {
+                            return data
+                              .filter((item) => item.active)
+                              .map((item) => ({
+                                value: item.id,
+                                label: `${item.title}`,
+                                key: item.id,
+                              }));
+                          })
+                        }
+                      />
                     </Form.Item>
                   </Col>
                 </>
