@@ -29,14 +29,25 @@ export default function PushNotification({ refetch }) {
       navigationUrl = 'seller';
     }
     deleteItem(id);
-    dispatch(
-      addMenu({
-        url: `${menuUrl}order/details/${id}`,
-        id: 'order_details',
-        name: t('order.details'),
-      }),
-    );
-    navigate(`${navigationUrl}/order/details/${id}`);
+    if (data?.data?.type === 'news_publish') {
+      dispatch(
+        addMenu({
+          url: `/notifications`,
+          id: 'notifications',
+          name: t('notifications'),
+        }),
+      );
+      navigate(`/notifications`);
+    } else {
+      dispatch(
+        addMenu({
+          url: `${menuUrl}order/details/${id}`,
+          id: 'order_details',
+          name: t('order.details'),
+        }),
+      );
+      navigate(`${navigationUrl}/order/details/${id}`);
+    }
   };
 
   const goToParcel = (id) => {
@@ -67,7 +78,11 @@ export default function PushNotification({ refetch }) {
           goToShow(data?.data?.id);
         }}
       >
-        {t('view.order')}
+        {t(
+          data?.data?.type === 'news_publish'
+            ? 'goto.notifications'
+            : 'view.order',
+        )}
       </Button>
     ) : null;
     notification.open({
