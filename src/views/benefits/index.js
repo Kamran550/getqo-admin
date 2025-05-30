@@ -5,40 +5,40 @@ import { useTranslation } from 'react-i18next';
 import { disableRefetch } from '../../redux/slices/menu';
 import { shallowEqual, useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { fetchSms } from '../../redux/slices/sms-geteways';
+import { fetchBenefit } from '../../redux/slices/benefit';
 import { useNavigate } from 'react-router-dom';
 import { addMenu } from '../../redux/slices/menu';
 
-export default function SmsGateways() {
+export default function Benefit() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { activeMenu } = useSelector((state) => state.menu, shallowEqual);
-  const { smsGatewaysList, loading } = useSelector(
-    (state) => state.sms,
+  const { benefitsList, loading } = useSelector(
+    (state) => state.benefit,
     shallowEqual,
   );
 
   const goToEdit = (type) => {
     dispatch(
       addMenu({
-        id: 'sms-payload-edit',
-        url: `settings/sms-payload/${type}`,
-        name: t('edit.sms.payload'),
+        id: 'benefit-edit',
+        url: `settings/benefit/${type}`,
+        name: t('edit.benefit'),
       }),
     );
-    navigate(`/settings/sms-payload/${type}`);
+    navigate(`/settings/benefit/${type}`);
   };
 
   const goToAdd = () => {
     dispatch(
       addMenu({
-        id: 'sms-payload-add',
-        url: 'settings/sms-payload/add',
-        name: t('add.sms.payload'),
+        id: 'benefit-add',
+        url: 'settings/benefit/add',
+        name: t('add.benefit'),
       }),
     );
-    navigate('/settings/sms-payload/add');
+    navigate('/settings/benefit/add');
   };
 
   const columns = [
@@ -73,10 +73,12 @@ export default function SmsGateways() {
   ];
 
   useEffect(() => {
-    console.log('activ menu:', activeMenu.refetch);
+    console.log('Benefits List:', benefitsList); // Burada `benefitsList`-in qiymətini yoxlaya bilərsiniz
+  }, [benefitsList]);
 
+  useEffect(() => {
     if (activeMenu.refetch) {
-      dispatch(fetchSms());
+      dispatch(fetchBenefit());
       dispatch(disableRefetch(activeMenu));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -84,7 +86,7 @@ export default function SmsGateways() {
 
   return (
     <Card
-      title={t('sms.payload')}
+      title={t('benefit')}
       extra={
         <Space>
           <Button
@@ -92,7 +94,7 @@ export default function SmsGateways() {
             icon={<PlusCircleOutlined />}
             onClick={goToAdd}
           >
-            {t('add.sms.payload')}
+            {t('add.benefit')}
           </Button>
         </Space>
       }
@@ -101,7 +103,7 @@ export default function SmsGateways() {
         scroll={{ x: true }}
         columns={columns}
         rowKey={(record) => record.id}
-        dataSource={smsGatewaysList}
+        dataSource={benefitsList}
         pagination={false}
         loading={loading}
       />

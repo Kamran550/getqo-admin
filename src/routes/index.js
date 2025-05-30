@@ -20,6 +20,7 @@ import MessageSubscriber from './admin/message-subscriber';
 import NotificationRoutes from './admin/notification';
 import OrderRoutes from './admin/order';
 import PagesRoutes from './admin/pages';
+import BenefitsRoutes from './admin/benefit';
 import PaymentPayloadsRoutes from './admin/payment-payloads';
 import ReceptRoutes from './admin/recept';
 import RecipeCategoriesRoutes from './admin/recipe-categories';
@@ -98,6 +99,7 @@ const AllRoutes = [
   ...OrderRoutes,
   ...PagesRoutes,
   ...PaymentPayloadsRoutes,
+  ...BenefitsRoutes,
   ...ReceptRoutes,
   ...RecipeCategoriesRoutes,
   ...RefundsRoutes,

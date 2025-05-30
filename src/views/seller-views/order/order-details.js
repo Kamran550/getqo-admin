@@ -348,6 +348,7 @@ export default function SellerOrderDetails() {
 
   return (
     <div className='order_details'>
+      <h1>Seller Order Detal</h1>
       <Card
         className='order-details-info'
         title={
@@ -512,6 +513,18 @@ export default function SellerOrderDetails() {
                         <span className='ml-2'>{t(data?.address?.floor)}</span>
                       </div>
                       <br />
+                      <div>
+                        {t('admin_delivery_fee')}:
+                        <span className='ml-2'>
+                          {t(
+                            !!data?.admin_delivery_fee
+                              ? data?.admin_delivery_fee
+                              : '',
+                          )}
+                        </span>
+                      </div>
+                      <br />
+
                       <span>{t('payments')}</span>
                       <Table
                         columns={paymentTableColumns}

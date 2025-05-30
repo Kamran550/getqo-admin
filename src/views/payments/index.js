@@ -18,7 +18,7 @@ export default function Payments() {
   const { setIsModalVisible } = useContext(Context);
   const { payments, loading } = useSelector(
     (state) => state.payment,
-    shallowEqual
+    shallowEqual,
   );
   const { activeMenu } = useSelector((state) => state.menu, shallowEqual);
   const dispatch = useDispatch();

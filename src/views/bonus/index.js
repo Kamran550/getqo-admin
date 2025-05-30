@@ -15,7 +15,7 @@ const BonusList = () => {
   const { activeMenu } = useSelector((state) => state.menu, shallowEqual);
   const { bonus, meta, loading, params } = useSelector(
     (state) => state.bonusList,
-    shallowEqual
+    shallowEqual,
   );
   const data = activeMenu?.data;
   const paramsData = {
@@ -90,7 +90,7 @@ const BonusList = () => {
       setMenuData({
         activeMenu,
         data: { ...activeMenu.data, perPage, page, column, sort },
-      })
+      }),
     );
   }
 

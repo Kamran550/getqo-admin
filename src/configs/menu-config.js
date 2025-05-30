@@ -578,6 +578,13 @@ const adminRoutes = [
         children: [],
       },
       {
+        name: 'benefits',
+        icon: 'GiftOutlined',
+        url: 'settings/benefit',
+        id: 'benefits',
+        children: [],
+      },
+      {
         name: 'payments',
         icon: 'wallet',
         url: 'settings/payments',

@@ -53,6 +53,11 @@ export default function OrderDetails() {
     shallowEqual,
   );
   const data = activeMenu.data;
+
+  useEffect(() => {
+    console.log('Fetched data:', data);
+  }, [data]);
+
   const { t } = useTranslation();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -387,6 +392,7 @@ export default function OrderDetails() {
       />
 
       <Row gutter={24}>
+        <h1>Order-detal</h1>
         <Col span={24}>
           <Card>
             <Space className='justify-content-between w-100'>
@@ -509,6 +515,23 @@ export default function OrderDetails() {
                     <span className='ml-2'>{t(data?.address?.floor)}</span>
                   </div>
                   <br />
+                  {/* <div>
+                    {t('admin_delivery_fee')}:
+                    <span className='ml-2'>
+                      {t(!!data?.delivery_fee ? data?.delivery_fee : '')}
+                    </span>
+                  </div> */}
+                  <div>
+                    {t('admin_delivery_fee')}:
+                    <span className='ml-2'>
+                      {t(
+                        !!data?.admin_delivery_fee
+                          ? data?.admin_delivery_fee
+                          : '',
+                      )}
+                    </span>
+                  </div>
+
                   <div>
                     {t('note')}:
                     <span className='ml-2'>

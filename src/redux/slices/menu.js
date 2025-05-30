@@ -19,7 +19,7 @@ const Menu = createSlice({
   reducers: {
     addMenu(state, action) {
       const existing = state.menuItems.find(
-        (item) => item.id === action.payload.id
+        (item) => item.id === action.payload.id,
       );
 
       if (!!existing) {
@@ -34,12 +34,12 @@ const Menu = createSlice({
     removeFromMenu(state, action) {
       const { payload } = action;
       const nextActiveMenu = state.menuItems.find(
-        (item) => item.url === payload?.nextUrl
+        (item) => item.url === payload?.nextUrl,
       );
       if (nextActiveMenu) {
         state.activeMenu = nextActiveMenu;
         state.menuItems = state.menuItems.filter(
-          (item) => item.id !== payload.id
+          (item) => item.id !== payload.id,
         );
       }
     },
@@ -47,13 +47,15 @@ const Menu = createSlice({
     replaceMenu(state, action) {
       const { payload } = action;
       const menuIndex = state.menuItems.findIndex(
-        (item) => item.id === state.activeMenu.id
+        (item) => item.id === state.activeMenu.id,
       );
       state.menuItems[menuIndex] = payload;
       state.activeMenu = payload;
     },
 
     setActiveMenu(state, action) {
+      console.log('ActiveMenu updated to:', action.payload);
+
       state.activeMenu = action.payload;
     },
 
@@ -66,9 +68,12 @@ const Menu = createSlice({
       state.activeMenu = initialMenuItem;
     },
     setMenuData(state, action) {
+      console.log({ action });
+
       const { payload } = action;
+
       const existingIndex = state.menuItems.findIndex(
-        (item) => item.id === payload.activeMenu.id
+        (item) => item.id === payload.activeMenu.id,
       );
       if (state.activeMenu.id === payload.activeMenu.id) {
         state.activeMenu.data = payload.data;
@@ -80,7 +85,7 @@ const Menu = createSlice({
     setRefetch(state, action) {
       const { payload } = action;
       const existingIndex = state.menuItems.findIndex(
-        (item) => item.id === payload.id
+        (item) => item.id === payload.id,
       );
       state.activeMenu = { ...payload, refetch: true };
       if (state.menuItems[existingIndex]) {
@@ -90,7 +95,7 @@ const Menu = createSlice({
     disableRefetch(state, action) {
       const { payload } = action;
       const existingIndex = state.menuItems.findIndex(
-        (item) => item.id === payload.id
+        (item) => item.id === payload.id,
       );
       state.activeMenu.refetch = false;
       if (state.menuItems[existingIndex]) {

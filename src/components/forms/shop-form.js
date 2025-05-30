@@ -276,6 +276,22 @@ const ShopFormData = ({
       <Col span={24}>
         <Card title={t('general')}>
           <Row gutter={12}>
+            <Col span={6}>
+              <Form.Item
+                label={t('type')}
+                name='type'
+                rules={[{ required: true, message: t('required') }]}
+              >
+                <Select
+                  options={[
+                    { label: t('restaurant'), value: 'restaurant' },
+                    { label: t('shop'), value: 'shop' },
+                  ]}
+                  placeholder={t('select.type')}
+                />
+              </Form.Item>
+            </Col>
+
             <Col span={12}>
               <Row gutter={12}>
                 <Col span={24}>
@@ -424,7 +440,10 @@ const ShopFormData = ({
             </Col>
 
             <Col span={12}>
-              <Form.Item name='emailStatuses' label={t('order.statuses.for.email.notifications')}>
+              <Form.Item
+                name='emailStatuses'
+                label={t('order.statuses.for.email.notifications')}
+              >
                 <Select mode='multiple' options={emailStatusOptions} />
               </Form.Item>
             </Col>

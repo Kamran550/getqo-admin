@@ -47,7 +47,9 @@ const ProductBonus = () => {
       key: 'bonusStock',
       is_show: true,
       render: (bonusStock, row) => {
-        return row?.bonusable?.product?.translation.title;
+        console.log({ row });
+
+        return row?.bonusable?.product?.translation.title || '-';
       },
     },
     {

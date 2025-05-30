@@ -74,6 +74,7 @@ import coupons from './slices/coupons';
 import todo from './slices/todo';
 import paymentPayload from './slices/paymentPayload';
 import sms from './slices/sms-geteways';
+import benefit from './slices/benefit';
 import box from './slices/box';
 import recipeCategory from './slices/recipe-category';
 import reciept from './slices/reciept';
@@ -113,6 +114,7 @@ const rootReducer = {
   menuCategory,
 
   sms,
+  benefit,
   coupons,
   bonusList,
   sellerOrders,
