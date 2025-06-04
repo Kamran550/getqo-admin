@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   Col,
+  DatePicker,
   Form,
   Input,
   Row,
@@ -19,9 +20,10 @@ import { useSelector } from 'react-redux';
 import Loading from '../../components/loading';
 import benefitService from 'services/benefit';
 import { fetchBenefit } from 'redux/slices/benefit';
+import moment from 'moment';
 const options = [
-  { title: 'free_delivery', value: 'free_delivery' },
-  { title: 'pul_delivery', value: 'pul_delivery' },
+  { title: 'free_delivery_count', value: 'free_delivery_count' },
+  { title: 'free_delivery_distance', value: 'free_delivery_distance' },
 ];
 
 export default function BenefitEdit() {
@@ -44,9 +46,14 @@ export default function BenefitEdit() {
       .getById(type)
       .then((res) => {
         const data = res.data;
+        const payloadWithMomentDate = {
+          ...data.payload,
+          date: data.payload.date ? moment(data.payload.date) : null,
+        };
+
         form.setFieldsValue({
           default: Boolean(data.default),
-          ...data.payload,
+          ...payloadWithMomentDate,
         });
         setTypeList(data.type);
       })
@@ -130,12 +137,12 @@ export default function BenefitEdit() {
                 </Form.Item>
               </Col>
 
-              {type === 'free_delivery' && (
+              {type === 'free_delivery_count' && (
                 <>
                   <Col span={12}>
                     <Form.Item
-                      label={t('free_delivery_count')}
-                      name='free_delivery_count'
+                      label={t('count')}
+                      name='count'
                       rules={[
                         {
                           required: true,
@@ -146,8 +153,22 @@ export default function BenefitEdit() {
                       <Input className='w-100' />
                     </Form.Item>
                   </Col>
-
                   <Col span={12}>
+                    <Form.Item
+                      label={t('date')}
+                      name='date'
+                      rules={[
+                        {
+                          required: true,
+                          message: t('required'),
+                        },
+                      ]}
+                    >
+                      <DatePicker className='w-100' />
+                    </Form.Item>
+                  </Col>
+
+                  {/* <Col span={12}>
                     <Form.Item
                       label={t('free_delivery_km')}
                       name='free_delivery_km'
@@ -160,9 +181,9 @@ export default function BenefitEdit() {
                     >
                       <Input className='w-100' />
                     </Form.Item>
-                  </Col>
+                  </Col> */}
 
-                  <Col span={12}>
+                  {/* <Col span={12}>
                     <Form.Item
                       label={t('free_delivery_price')}
                       name='free_delivery_price'
@@ -175,7 +196,34 @@ export default function BenefitEdit() {
                     >
                       <Input className='w-100' />
                     </Form.Item>
+                  </Col> */}
+                </>
+              )}
+              {type === 'free_delivery_distance' && (
+                <>
+                  <Col span={12}>
+                    <Form.Item
+                      label={t('km')}
+                      name='km'
+                      rules={[
+                        {
+                          required: true,
+                          message: t('required'),
+                        },
+                      ]}
+                    >
+                      <Input className='w-100' />
+                    </Form.Item>
                   </Col>
+                  {/* <Col span={12}>
+                    <Form.Item
+                      label={t('default')}
+                      name='default'
+                      valuePropName='checked'
+                    >
+                      <Switch />
+                    </Form.Item>
+                  </Col> */}
                 </>
               )}
 

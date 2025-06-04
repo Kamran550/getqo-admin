@@ -9,6 +9,7 @@ import {
   Space,
   Select,
   Switch,
+  DatePicker,
 } from 'antd';
 import { useTranslation } from 'react-i18next';
 import benefitService from '../../services/benefit';
@@ -19,8 +20,8 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { fetchBenefit } from 'redux/slices/benefit';
 const options = [
-  { title: 'free_delivery', value: 'free_delivery' },
-  // { title: 'test_delivery', value: 'test_delivery' },
+  { title: 'free_delivery_count', value: 'free_delivery_count' },
+  { title: 'free_delivery_distance', value: 'free_delivery_distance' },
 ];
 
 export default function BenefitAdd() {
@@ -86,12 +87,12 @@ export default function BenefitAdd() {
             </Form.Item>
           </Col>
 
-          {type === 'free_delivery' && (
+          {type === 'free_delivery_count' && (
             <>
               <Col span={12}>
                 <Form.Item
-                  label={t('free_delivery_count')}
-                  name='free_delivery_count'
+                  label={t('count')}
+                  name='count'
                   rules={[
                     {
                       required: true,
@@ -102,8 +103,22 @@ export default function BenefitAdd() {
                   <Input className='w-100' />
                 </Form.Item>
               </Col>
-
               <Col span={12}>
+                <Form.Item
+                  label={t('date')}
+                  name='date'
+                  rules={[
+                    {
+                      required: true,
+                      message: t('required'),
+                    },
+                  ]}
+                >
+                  <DatePicker className='w-100' />
+                </Form.Item>
+              </Col>
+
+              {/* <Col span={12}>
                 <Form.Item
                   label={t('free_delivery_km')}
                   name='free_delivery_km'
@@ -116,12 +131,24 @@ export default function BenefitAdd() {
                 >
                   <Input className='w-100' />
                 </Form.Item>
-              </Col>
-
+              </Col> */}
               <Col span={12}>
                 <Form.Item
-                  label={t('free_delivery_price')}
-                  name='free_delivery_price'
+                  label={t('default')}
+                  name='default'
+                  valuePropName='checked'
+                >
+                  <Switch />
+                </Form.Item>
+              </Col>
+            </>
+          )}
+          {type === 'free_delivery_distance' && (
+            <>
+              <Col span={12}>
+                <Form.Item
+                  label={t('km')}
+                  name='km'
                   rules={[
                     {
                       required: true,
@@ -132,7 +159,6 @@ export default function BenefitAdd() {
                   <Input className='w-100' />
                 </Form.Item>
               </Col>
-
               <Col span={12}>
                 <Form.Item
                   label={t('default')}

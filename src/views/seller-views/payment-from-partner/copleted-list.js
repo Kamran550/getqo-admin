@@ -184,6 +184,7 @@ export default function PaymentToPartnersCompleteList() {
 
   return (
     <>
+      <h1>Sallaaaamm</h1>
       <Card>
         <div className='flex justify-content-space-between'>
           <Space

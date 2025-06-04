@@ -24,7 +24,7 @@ export default function PaymentToPartnersCompleteList() {
   const { t } = useTranslation();
   const { defaultCurrency } = useSelector(
     (state) => state.currency,
-    shallowEqual
+    shallowEqual,
   );
 
   const goToShow = (id) => {
@@ -32,8 +32,8 @@ export default function PaymentToPartnersCompleteList() {
       addMenu({
         url: `order/details/${id}`,
         id: 'order_details',
-        name: t('order.details')
-      })
+        name: t('order.details'),
+      }),
     );
     navigate(`/order/details/${id}`);
   };
@@ -49,7 +49,7 @@ export default function PaymentToPartnersCompleteList() {
         <span className='text-hover' onClick={() => goToShow(id)}>
           #{id}
         </span>
-      )
+      ),
     },
     {
       title: t(type),
@@ -63,7 +63,7 @@ export default function PaymentToPartnersCompleteList() {
             {user?.firstname} {user?.lastname || ''}
           </div>
         );
-      }
+      },
     },
     {
       title: t('order.total_price'),
@@ -77,51 +77,69 @@ export default function PaymentToPartnersCompleteList() {
             {numberToPrice(row?.order?.total_price, defaultCurrency.symbol)}
           </span>
         );
-      }
+      },
     },
     ...(type === 'seller'
       ? [
-        {
-          title: t('coupon.price'),
-          is_show: true,
-          dataIndex: 'coupon_sum_price',
-          key: 'coupon_sum_price',
-          render: (_, row) => numberToPrice(row?.order?.coupon_sum_price, defaultCurrency.symbol)
-        }
-      ]
+          {
+            title: t('coupon.price'),
+            is_show: true,
+            dataIndex: 'coupon_sum_price',
+            key: 'coupon_sum_price',
+            render: (_, row) =>
+              numberToPrice(
+                row?.order?.coupon_sum_price,
+                defaultCurrency.symbol,
+              ),
+          },
+        ]
       : []),
     ...(type === 'seller'
       ? [
-        {
-          title: t('total.cashback'),
-          is_show: true,
-          dataIndex: 'point_history_sum_price',
-          key: 'point_history_sum_price',
-          render: (_, row) =>
-            numberToPrice(row?.order?.point_history_sum_price, defaultCurrency.symbol)
-        }
-      ]
+          {
+            title: t('total.cashback'),
+            is_show: true,
+            dataIndex: 'point_history_sum_price',
+            key: 'point_history_sum_price',
+            render: (_, row) =>
+              numberToPrice(
+                row?.order?.point_history_sum_price,
+                defaultCurrency.symbol,
+              ),
+          },
+        ]
       : []),
     {
       title: t('delivery.fee'),
       is_show: true,
       dataIndex: 'delivery_fee',
       key: 'delivery_fee',
-      render: (_, row) => numberToPrice(row?.order?.delivery_fee, defaultCurrency.symbol)
+      render: (_, row) =>
+        numberToPrice(row?.order?.delivery_fee, defaultCurrency.symbol),
     },
+    {
+      title: t('admin.delivery.fee'),
+      is_show: true,
+      dataIndex: 'admin_delivery_fee',
+      key: 'admin_delivery_fee',
+      render: (_, row) =>
+        numberToPrice(row?.order?.admin_delivery_fee, defaultCurrency.symbol),
+    },
+
     ...(type === 'seller'
       ? [
-        {
-          title: t('service.fee'),
-          is_show: true,
-          dataIndex: 'service_fee',
-          key: 'service_fee',
-          render: (_, row) =>
-            numberToPrice(
-              (row?.order?.service_fee || 0),  defaultCurrency.symbol
-            )
-        }
-      ]
+          {
+            title: t('service.fee'),
+            is_show: true,
+            dataIndex: 'service_fee',
+            key: 'service_fee',
+            render: (_, row) =>
+              numberToPrice(
+                row?.order?.service_fee || 0,
+                defaultCurrency.symbol,
+              ),
+          },
+        ]
       : []),
     ...(type === 'seller'
       ? [
@@ -132,39 +150,41 @@ export default function PaymentToPartnersCompleteList() {
             key: 'commission_fee',
             render: (_, row) =>
               numberToPrice(
-                (row?.order.commission_fee || 0),  defaultCurrency.symbol
-              )
-          }
-      ]
+                row?.order.commission_fee || 0,
+                defaultCurrency.symbol,
+              ),
+          },
+        ]
       : []),
     ...(type === 'seller'
       ? [
-        {
-          title: t('seller.fee'),
-          is_show: true,
-          dataIndex: 'seller_fee',
-          key: 'seller_fee',
-          render: (_, row) => numberToPrice(row?.order?.seller_fee,  defaultCurrency.symbol)
-        }
-      ]
+          {
+            title: t('seller.fee'),
+            is_show: true,
+            dataIndex: 'seller_fee',
+            key: 'seller_fee',
+            render: (_, row) =>
+              numberToPrice(row?.order?.seller_fee, defaultCurrency.symbol),
+          },
+        ]
       : []),
     {
       title: t('payment.type'),
       is_show: true,
       dataIndex: 'transaction',
       key: 'transaction',
-      render: (transaction) => t(transaction?.payment_system?.tag) || '-'
-    }
+      render: (transaction) => t(transaction?.payment_system?.tag) || '-',
+    },
   ];
 
   const { activeMenu } = useSelector((state) => state.menu, shallowEqual);
   const [dateRange, setDateRange] = useState(
     moment().subtract(1, 'month'),
-    moment()
+    moment(),
   );
   const { completedList, loading, params, meta } = useSelector(
     (state) => state.paymentToPartners,
-    shallowEqual
+    shallowEqual,
   );
   const data = activeMenu.data;
   const paramsData = {
@@ -182,7 +202,7 @@ export default function PaymentToPartnersCompleteList() {
     date_to: Array.isArray(dateRange)
       ? dateRange[1]?.format('YYYY-MM-DD')
       : moment().format('YYYY-MM-DD'),
-    type
+    type,
   };
 
   function onChangePagination(pagination, filters, sorter) {
@@ -192,8 +212,8 @@ export default function PaymentToPartnersCompleteList() {
     dispatch(
       setMenuData({
         activeMenu,
-        data: { ...data, perPage, page, column, sort }
-      })
+        data: { ...data, perPage, page, column, sort },
+      }),
     );
   }
 
@@ -205,8 +225,8 @@ export default function PaymentToPartnersCompleteList() {
     dispatch(
       setMenuData({
         activeMenu,
-        data: { ...data, ...{ [name]: item } }
-      })
+        data: { ...data, ...{ [name]: item } },
+      }),
     );
   };
 
@@ -214,12 +234,12 @@ export default function PaymentToPartnersCompleteList() {
     const params = {
       search,
       perPage: 10,
-      role: type
+      role: type,
     };
     return userService.search(params).then(({ data }) => {
       return data.map((item) => ({
         label: `${item.firstname} ${item.lastname}`,
-        value: item.id
+        value: item.id,
       }));
     });
   }
@@ -229,8 +249,8 @@ export default function PaymentToPartnersCompleteList() {
     return shopService.getAll(params).then(({ data }) =>
       data.map((item) => ({
         label: item.translation?.title,
-        value: item.id
-      }))
+        value: item.id,
+      })),
     );
   }
 
@@ -280,8 +300,8 @@ export default function PaymentToPartnersCompleteList() {
                   ...prev,
                   ...{
                     date_from: values?.[0]?.format('YYYY-MM-DD'),
-                    date_to: values?.[1]?.format('YYYY-MM-DD')
-                  }
+                    date_to: values?.[1]?.format('YYYY-MM-DD'),
+                  },
                 }));
                 setDateRange(values);
               }}
@@ -305,7 +325,7 @@ export default function PaymentToPartnersCompleteList() {
             page: activeMenu.data?.page || 1,
             total: meta?.total,
             defaultCurrent: activeMenu.data?.page,
-            current: activeMenu.data?.page
+            current: activeMenu.data?.page,
           }}
           rowKey={(record) => record.id}
           onChange={onChangePagination}

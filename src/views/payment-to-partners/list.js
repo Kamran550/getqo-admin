@@ -91,10 +91,10 @@ export default function PaymentToPartnersList() {
                 status === 'progress'
                   ? 'text-primary'
                   : status === 'paid'
-                  ? 'text-success'
-                  : status === 'rejected'
-                  ? 'text-danger'
-                  : 'text-info'
+                    ? 'text-success'
+                    : status === 'rejected'
+                      ? 'text-danger'
+                      : 'text-info'
               }
             >
               {row.transaction?.status}
@@ -147,6 +147,19 @@ export default function PaymentToPartnersList() {
           defaultCurrency?.position,
         ),
     },
+        {
+      title: t('admin.delivery.fee'),
+      is_show: true,
+      dataIndex: 'admin_delivery_fee',
+      key: 'admin_delivery_fee',
+      render: (adminDeliveryFee) =>
+        numberToPrice(
+          adminDeliveryFee,
+          defaultCurrency?.symbol,
+          defaultCurrency?.position,
+        ),
+    },
+
     ...(type === 'seller'
       ? [
           {
@@ -199,6 +212,18 @@ export default function PaymentToPartnersList() {
     (state) => state.paymentToPartners,
     shallowEqual,
   );
+  const totalDeliveryFee = React.useMemo(() => {
+    if (!list?.data) return 0;
+
+    console.log({ list });
+
+    return list.data.reduce((sum, order) => {
+      const deliveryFee = Number(order.delivery_fee ?? 0);
+      const adminFee = Number(order.admin_delivery_fee ?? 0);
+      return sum + (deliveryFee === 0 ? adminFee : deliveryFee);
+    }, 0);
+  }, [list?.data]);
+
   const data = activeMenu.data;
   const paramsData = {
     search: data?.search,
@@ -310,6 +335,7 @@ export default function PaymentToPartnersList() {
 
   return (
     <>
+      <h1>Necesen?</h1>
       <Card>
         <div className='flex justify-content-space-between'>
           <Space
@@ -386,7 +412,8 @@ export default function PaymentToPartnersList() {
               color='red'
             />
           </Col>
-          <Col flex='0 0 25%'>
+          {/* <h1>DELF</h1> */}
+          {/* <Col flex='0 0 25%'>
             <StatisticNumberWidget
               title={t('delivery.fee')}
               value={numberToPrice(
@@ -396,7 +423,30 @@ export default function PaymentToPartnersList() {
               )}
               color='green'
             />
+          </Col> */}
+          <Col flex='0 0 25%'>
+            <StatisticNumberWidget
+              title={t('delivery.fee')}
+              value={numberToPrice(
+                totalDeliveryFee,
+                defaultCurrency?.symbol,
+                defaultCurrency?.position,
+              )}
+              color='green'
+            />
           </Col>
+          <Col flex='0 0 25%'>
+            <StatisticNumberWidget
+              title={t('admin.delivery.fee')}
+              value={numberToPrice(
+                list?.total_admin_delivery_fee,
+                defaultCurrency?.symbol,
+                defaultCurrency?.position,
+              )}
+              color='green'
+            />
+          </Col>
+
           <Col flex='0 0 25%'>
             <StatisticNumberWidget
               title={t('point.history')}

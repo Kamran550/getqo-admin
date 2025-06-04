@@ -93,6 +93,7 @@ const ShopMain = ({ next, action_type = '', user }) => {
       emailStatuses: undefined,
       new_order_after_payment: values?.new_order_after_payment ? 1 : 0,
       type: values.type,
+      free_delivery_price: values.free_delivery_price,
     };
     delete body?.background_img;
     delete body?.logo_img;

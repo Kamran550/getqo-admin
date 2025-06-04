@@ -452,6 +452,8 @@ const ShopFormData = ({
       </Col>
 
       <Col span={8}>
+        <h1>Del SHop</h1>
+
         <Card title={t('delivery')}>
           <Row gutter={8}>
             <Col span={12}>
@@ -549,6 +551,15 @@ const ShopFormData = ({
                   className='w-100'
                   addonAfter={'%'}
                 />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                label={t('free.delivery.price')}
+                name='free_delivery_price'
+                rules={[{ required: true, message: t('required') }]}
+              >
+                <InputNumber min={0} className='w-100' />
               </Form.Item>
             </Col>
           </Row>

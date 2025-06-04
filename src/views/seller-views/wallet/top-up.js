@@ -17,7 +17,7 @@ export default function WalletTopUp({ open, handleCancel, refetch }) {
   const dispatch = useDispatch();
   const { payments, loading } = useSelector(
     (state) => state.payment,
-    shallowEqual
+    shallowEqual,
   );
   const { myShop: shop } = useSelector((state) => state.myShop, shallowEqual);
   const [loadingBtn, setLoadingBtn] = useState(false);
@@ -27,9 +27,9 @@ export default function WalletTopUp({ open, handleCancel, refetch }) {
 
   const { payment_type } = useSelector(
     (state) => state.globalSettings.settings,
-    shallowEqual
+    shallowEqual,
   );
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
 
   async function fetchSellerPaymentList() {
     return await restPaymentService.getById(shop.id).then(({ data }) =>
@@ -38,8 +38,8 @@ export default function WalletTopUp({ open, handleCancel, refetch }) {
           label: item.payment.tag || 'no name',
           value: item.payment.id,
           key: item.payment.id,
-        }))
-      )
+        })),
+      ),
     );
   }
   async function fetchPaymentList() {
@@ -49,8 +49,8 @@ export default function WalletTopUp({ open, handleCancel, refetch }) {
           label: item.tag || 'no name',
           value: item.id,
           key: item.id,
-        }))
-      )
+        })),
+      ),
     );
   }
 
@@ -69,7 +69,8 @@ export default function WalletTopUp({ open, handleCancel, refetch }) {
     }
     setLoadingBtn(true);
     walletService
-      .topUp({ payment_type: paymentType.label, price: values.price }).then(({data}) => {
+      .topUp({ payment_type: paymentType.label, price: values.price })
+      .then(({ data }) => {
         form.resetFields();
         setPaymentType({});
         handleCancel();
@@ -77,7 +78,6 @@ export default function WalletTopUp({ open, handleCancel, refetch }) {
         window.open(data.data.url);
       })
       .finally(() => setLoadingBtn(false));
-   
   };
 
   const selectPayment = (type) => {
