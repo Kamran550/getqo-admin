@@ -557,7 +557,6 @@ const ShopFormData = ({
               <Form.Item
                 label={t('free.delivery.price')}
                 name='free_delivery_price'
-                rules={[{ required: true, message: t('required') }]}
               >
                 <InputNumber min={0} className='w-100' />
               </Form.Item>

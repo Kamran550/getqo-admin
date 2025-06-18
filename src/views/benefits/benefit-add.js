@@ -105,23 +105,8 @@ export default function BenefitAdd() {
               </Col>
               <Col span={12}>
                 <Form.Item
-                  label={t('date')}
-                  name='date'
-                  rules={[
-                    {
-                      required: true,
-                      message: t('required'),
-                    },
-                  ]}
-                >
-                  <DatePicker className='w-100' />
-                </Form.Item>
-              </Col>
-
-              {/* <Col span={12}>
-                <Form.Item
-                  label={t('free_delivery_km')}
-                  name='free_delivery_km'
+                  label={t('day')}
+                  name='day'
                   rules={[
                     {
                       required: true,
@@ -131,7 +116,29 @@ export default function BenefitAdd() {
                 >
                   <Input className='w-100' />
                 </Form.Item>
-              </Col> */}
+              </Col>
+
+              <Col span={12}>
+                <Form.Item
+                  label={t('target_type')}
+                  name='target_type'
+                  rules={[
+                    {
+                      required: true,
+                      message: t('required'),
+                    },
+                  ]}
+                >
+                  <Select >
+                    <Select.Option value='shop'>{t('shop')}</Select.Option>
+                    <Select.Option value='restaurant'>
+                      {t('restaurant')}
+                    </Select.Option>
+                    <Select.Option value='all'>{t('all')}</Select.Option>
+                  </Select>
+                </Form.Item>
+              </Col>
+
               <Col span={12}>
                 <Form.Item
                   label={t('default')}

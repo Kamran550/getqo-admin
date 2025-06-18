@@ -153,10 +153,11 @@ export default function BenefitEdit() {
                       <Input className='w-100' />
                     </Form.Item>
                   </Col>
+
                   <Col span={12}>
                     <Form.Item
-                      label={t('date')}
-                      name='date'
+                      label={t('day')}
+                      name='day'
                       rules={[
                         {
                           required: true,
@@ -164,14 +165,14 @@ export default function BenefitEdit() {
                         },
                       ]}
                     >
-                      <DatePicker className='w-100' />
+                      <Input className='w-100' />
                     </Form.Item>
                   </Col>
 
-                  {/* <Col span={12}>
+                  <Col span={12}>
                     <Form.Item
-                      label={t('free_delivery_km')}
-                      name='free_delivery_km'
+                      label={t('target_type')}
+                      name='target_type'
                       rules={[
                         {
                           required: true,
@@ -179,24 +180,15 @@ export default function BenefitEdit() {
                         },
                       ]}
                     >
-                      <Input className='w-100' />
+                      <Select>
+                        <Select.Option value='shop'>{t('shop')}</Select.Option>
+                        <Select.Option value='restaurant'>
+                          {t('restaurant')}
+                        </Select.Option>
+                        <Select.Option value='all'>{t('all')}</Select.Option>
+                      </Select>
                     </Form.Item>
-                  </Col> */}
-
-                  {/* <Col span={12}>
-                    <Form.Item
-                      label={t('free_delivery_price')}
-                      name='free_delivery_price'
-                      rules={[
-                        {
-                          required: true,
-                          message: t('required'),
-                        },
-                      ]}
-                    >
-                      <Input className='w-100' />
-                    </Form.Item>
-                  </Col> */}
+                  </Col>
                 </>
               )}
               {type === 'free_delivery_distance' && (
