@@ -17,7 +17,7 @@ import moment from 'moment';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { removeFromMenu } from '../../redux/slices/menu';
 import { useTranslation } from 'react-i18next';
-import { fetchCoupon } from '../../redux/slices/coupons';
+import { fetchCoupon } from '../../redux/slices/admin-coupons';
 
 const CouponAdd = () => {
   const { t } = useTranslation();
@@ -25,7 +25,7 @@ const CouponAdd = () => {
   const [loadingBtn, setLoadingBtn] = useState(false);
   const { defaultLang, languages } = useSelector(
     (state) => state.formLang,
-    shallowEqual
+    shallowEqual,
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,8 +40,10 @@ const CouponAdd = () => {
       expired_at: moment(values.expired_at).format('YYYY-MM-DD'),
       qty: Number(values.qty),
       price: Number(values.price),
+      target_type: values.target_type,
     };
     const nextUrl = 'coupons';
+
     couponService
       .create(params)
       .then((res) => {
@@ -129,6 +131,26 @@ const CouponAdd = () => {
               rules={[{ required: true, message: t('required') }]}
             >
               <InputNumber min={0} className='w-100' />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              label={t('target_type')}
+              name='target_type'
+              rules={[
+                {
+                  required: true,
+                  message: t('required'),
+                },
+              ]}
+            >
+              <Select>
+                <Select.Option value='shop'>{t('shop')}</Select.Option>
+                <Select.Option value='restaurant'>
+                  {t('restaurant')}
+                </Select.Option>
+                <Select.Option value='all'>{t('all')}</Select.Option>
+              </Select>
             </Form.Item>
           </Col>
         </Row>

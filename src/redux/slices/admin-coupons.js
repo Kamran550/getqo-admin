@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import couponService from '../../services/seller/coupon';
+import couponService from '../../services/coupon';
 
 const initialState = {
   loading: false,
@@ -15,12 +15,15 @@ const initialState = {
 export const fetchCoupon = createAsyncThunk(
   'category/fetchCoupon',
   (params = {}) => {
-    console.log({ params });
     console.log({ initialState });
+    console.log({ params });
 
     return couponService
       .getAll({ ...initialState.params, ...params })
-      .then((res) => res);
+      .then((res) => res)
+      .catch((err) => {
+        console.log('err bash verdi:', err);
+      });
   },
 );
 

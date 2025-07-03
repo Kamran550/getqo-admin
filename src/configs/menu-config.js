@@ -480,6 +480,13 @@ const adminRoutes = [
     icon: 'copyright',
     submenu: [
       {
+        name: 'coupons',
+        icon: 'calendar',
+        url: 'coupons',
+        id: 'coupons',
+        children: [],
+      },
+      {
         name: 'cashback',
         icon: 'copyright',
         url: 'cashback',
@@ -1534,7 +1541,7 @@ const sellerRoutes = [
       {
         name: 'coupons',
         icon: 'calendar',
-        url: 'coupons',
+        url: 'seller/coupons',
         id: 'coupons',
         children: [],
       },

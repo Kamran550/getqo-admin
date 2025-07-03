@@ -6,21 +6,25 @@ import {
   EditOutlined,
   PlusCircleOutlined,
 } from '@ant-design/icons';
-import { Context } from '../../context/context';
-import CustomModal from '../../components/modal';
+import { Context } from '../../../context/context';
+import CustomModal from '../../../components/modal';
 import { toast } from 'react-toastify';
-import couponService from '../../services/coupon';
+import couponService from '../../../services/seller/coupon';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { addMenu, disableRefetch, setMenuData } from '../../redux/slices/menu';
+import {
+  addMenu,
+  disableRefetch,
+  setMenuData,
+} from '../../../redux/slices/menu';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
-import DeleteButton from '../../components/delete-button';
-import FilterColumns from '../../components/filter-column';
-import useDidUpdate from '../../helpers/useDidUpdate';
-import { fetchCoupon } from '../../redux/slices/admin-coupons';
-import formatSortType from '../../helpers/formatSortType';
+import DeleteButton from '../../../components/delete-button';
+import FilterColumns from '../../../components/filter-column';
+import useDidUpdate from '../../../helpers/useDidUpdate';
+import { fetchCoupon } from '../../../redux/slices/coupons';
+import formatSortType from '../../../helpers/formatSortType';
 
-const AdminCoupon = () => {
+const SellerCoupon = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,22 +33,22 @@ const AdminCoupon = () => {
     dispatch(
       addMenu({
         url: `coupon/${row.id}`,
-        id: 'coupon_edit',
+        id: 'seller/coupon_edit',
         name: t('edit.coupon'),
       }),
     );
-    navigate(`/coupon/${row.id}`);
+    navigate(`/seller/coupon/${row.id}`);
   };
 
   const goToAdd = () => {
     dispatch(
       addMenu({
         id: 'add.coupon',
-        url: `coupon/add`,
+        url: `seller/coupon/add`,
         name: t('add.coupon'),
       }),
     );
-    navigate(`/coupon/add`);
+    navigate(`/seller/coupon/add`);
   };
 
   const [columns, setColumns] = useState([
@@ -73,11 +77,6 @@ const AdminCoupon = () => {
       title: t('price'),
       dataIndex: 'price',
       is_show: true,
-    },
-    {
-      title: t('target_type'),
-      dataIndex: 'target_type',
-      is_show: true
     },
     {
       title: t('quantity'),
@@ -214,7 +213,7 @@ const AdminCoupon = () => {
             type='primary'
             onClick={goToAdd}
           >
-            {t('add.coupon')}
+            {t('add.couponnnnnnn')}
           </Button>
 
           <DeleteButton onClick={allDelete}>
@@ -250,4 +249,4 @@ const AdminCoupon = () => {
   );
 };
 
-export default AdminCoupon;
+export default SellerCoupon;

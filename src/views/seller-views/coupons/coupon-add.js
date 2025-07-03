@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Form,
   Input,
@@ -10,20 +10,18 @@ import {
   Col,
   InputNumber,
 } from 'antd';
-import LanguageList from '../../components/language-list';
-import { useNavigate, useParams } from 'react-router-dom';
-import couponService from '../../services/coupon';
+import LanguageList from '../../../components/language-list';
+import { useNavigate } from 'react-router-dom';
+import couponService from '../../../services/seller/coupon';
 import moment from 'moment';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { disableRefetch, removeFromMenu } from '../../redux/slices/menu';
+import { removeFromMenu } from '../../../redux/slices/menu';
 import { useTranslation } from 'react-i18next';
-import { fetchCoupon } from '../../redux/slices/admin-coupons';
+import { fetchCoupon } from '../../../redux/slices/coupons';
 
-const CouponEdit = () => {
+const CouponAdd = () => {
   const { t } = useTranslation();
   const [form] = Form.useForm();
-  const [data, setData] = useState({});
-  const [loading, setLoading] = useState(false);
   const [loadingBtn, setLoadingBtn] = useState(false);
   const { defaultLang, languages } = useSelector(
     (state) => state.formLang,
@@ -31,39 +29,8 @@ const CouponEdit = () => {
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { id } = useParams();
   const { activeMenu } = useSelector((state) => state.menu, shallowEqual);
   const { myShop } = useSelector((state) => state.myShop, shallowEqual);
-
-  function getLanguageFields(data) {
-    if (!data?.translations) {
-      return {};
-    }
-    const { translations } = data;
-    const result = languages.map((item) => ({
-      [`title[${item.locale}]`]: translations.find(
-        (el) => el.locale === item.locale,
-      )?.title,
-    }));
-    return Object.assign({}, ...result);
-  }
-
-  function getCoupon(id) {
-    setLoading(true);
-    couponService
-      .getById(id)
-      .then(({ data }) => {
-        setData(data);
-        form.setFieldsValue({
-          ...getLanguageFields(data),
-          expired_at: moment(data.expired_at, 'YYYY-MM-DD'),
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-        dispatch(disableRefetch(activeMenu));
-      });
-  }
 
   const onFinish = (values) => {
     setLoadingBtn(true);
@@ -74,44 +41,20 @@ const CouponEdit = () => {
       qty: Number(values.qty),
       price: Number(values.price),
     };
-    const nextUrl = 'coupons';
-    if (id) {
-      couponService
-        .update(id, params)
-        .then((res) => {
-          dispatch(removeFromMenu({ ...activeMenu, nextUrl }));
-          navigate(`/${nextUrl}`);
-          dispatch(fetchCoupon());
-        })
-        .finally(() => setLoadingBtn(false));
-    } else {
-      couponService
-        .create(params)
-        .then((res) => {
-          dispatch(removeFromMenu({ ...activeMenu, nextUrl }));
-          navigate(`/${nextUrl}`);
-        })
-        .finally(() => setLoadingBtn(false));
-    }
+    const nextUrl = 'seller/coupons';
+    couponService
+      .create(params)
+      .then((res) => {
+        dispatch(removeFromMenu({ ...activeMenu, nextUrl }));
+        navigate(`/${nextUrl}`);
+        dispatch(fetchCoupon());
+      })
+      .finally(() => setLoadingBtn(false));
   };
 
-  useEffect(() => {
-    if (activeMenu.refetch) {
-      getCoupon(id);
-    }
-  }, [activeMenu.refetch]);
-
   return (
-    <Card title={t('edit.coupon')} extra={<LanguageList />} loading={loading}>
-      <Form
-        form={form}
-        name='basic'
-        initialValues={{
-          ...data,
-        }}
-        layout='vertical'
-        onFinish={onFinish}
-      >
+    <Card title={t('add.coupon')} extra={<LanguageList />}>
+      <Form form={form} name='basic' layout='vertical' onFinish={onFinish}>
         <Row gutter={12}>
           <Col span={12}>
             {languages.map((item) => (
@@ -197,4 +140,4 @@ const CouponEdit = () => {
   );
 };
 
-export default CouponEdit;
+export default CouponAdd;

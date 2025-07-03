@@ -9,7 +9,6 @@ import {
   Space,
   Select,
   Switch,
-  DatePicker,
 } from 'antd';
 import { useTranslation } from 'react-i18next';
 import benefitService from '../../services/benefit';

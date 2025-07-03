@@ -44,6 +44,7 @@ import PaymentToPartnersRoutes from './admin/payment-to-partners';
 
 // ** seller routes ** -----------
 import SellerAddonRoutes from './seller/addon';
+import SellerCouponRoutes from './seller/coupon';
 import SellerAppRoutes from './seller/app';
 import SellerBonusRoutes from './seller/bonus';
 import SellerBookingTableRoutes from './seller/booking-tables';
@@ -121,6 +122,7 @@ const AllRoutes = [
   ...PaymentToPartnersRoutes,
 
   // seller routes
+  ...SellerCouponRoutes,
   ...SellerAppRoutes,
   ...SellerAddonRoutes,
   ...SellerBonusRoutes,
