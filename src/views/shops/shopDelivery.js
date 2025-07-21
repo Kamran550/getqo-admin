@@ -57,9 +57,9 @@ const ShopDelivery = ({ next, prev }) => {
         setDays(
           res.data.closed_dates
             .filter(
-              (date) => date.day > moment(new Date()).format('YYYY-MM-DD')
+              (date) => date.day > moment(new Date()).format('YYYY-MM-DD'),
             )
-            .map((itm) => new Date(itm.day))
+            .map((itm) => new Date(itm.day)),
         );
       });
 
@@ -69,7 +69,7 @@ const ShopDelivery = ({ next, prev }) => {
           setLines(
             res.data.dates.length !== 0
               ? res.data.dates.map((item) => item.disabled)
-              : []
+              : [],
           );
 
           res.data.dates.length !== 0 &&
@@ -95,11 +95,12 @@ const ShopDelivery = ({ next, prev }) => {
     return () => {
       setLoading(false);
       setLoadingBtn(false);
-    }
+    };
   }, []);
 
   return (
     <>
+      <h1>Del shop</h1>
       {!loading ? (
         <ShopDeliveryForm
           onFinish={onFinish}
