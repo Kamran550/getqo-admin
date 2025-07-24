@@ -66,7 +66,7 @@ export default function SmsPayloadAdd() {
 
   return (
     <Form form={form} layout='vertical' onFinish={onFinish}>
-      <Card title={t('add.sms.payload')}>
+      <Card title={t('add.sms.payloaddd')}>
         <Row gutter={12}>
           <Col span={12}>
             <Form.Item
