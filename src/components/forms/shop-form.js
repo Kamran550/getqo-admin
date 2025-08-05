@@ -561,6 +561,16 @@ const ShopFormData = ({
                 <InputNumber min={0} className='w-100' />
               </Form.Item>
             </Col>
+
+            <Col span={12}>
+              <Form.Item
+                label={t('max.small.order.fee')}
+                name='max_small_order_fee'
+                rules={[{ required: true, message: t('required') }]}
+              >
+                <InputNumber min={0} className='w-100' />
+              </Form.Item>
+            </Col>
           </Row>
         </Card>
       </Col>
