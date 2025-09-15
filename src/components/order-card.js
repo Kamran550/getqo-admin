@@ -10,6 +10,7 @@ import {
   DeleteOutlined,
   FieldTimeOutlined,
   EditOutlined,
+  ClockCircleOutlined,
 } from '@ant-design/icons';
 import { Avatar, Card, List, Skeleton, Space } from 'antd';
 import numberToPrice from '../helpers/numberToPrice';
@@ -30,6 +31,7 @@ const OrderCard = ({
   setIsModalVisible,
   setText,
   setDowloadModal,
+  setCookingModal,
   setTabType,
   setIsTransactionModalOpen,
 }) => {
@@ -75,8 +77,7 @@ const OrderCard = ({
             setIsTransactionModalOpen(lastTransaction);
           }}
         >
-          {lastTransaction?.status}{' '}
-          <EditOutlined disabled={item?.deleted_at} />
+          {lastTransaction?.status} <EditOutlined disabled={item?.deleted_at} />
         </div>
       ) : (
         '-'
@@ -102,23 +103,31 @@ const OrderCard = ({
         setLocationsMap(item.id);
       }}
     />,
-    <DeleteOutlined
-      onClick={(e) => {
-        if (isDemo) {
-          toast.warning(t('cannot.work.demo'));
-          return;
-        }
-        e.stopPropagation();
-        setId([item.id]);
-        setIsModalVisible(true);
-        setText(true);
-        setTabType(item.status);
-      }}
-    />,
+    // <DeleteOutlined
+    //   onClick={(e) => {
+    //     if (isDemo) {
+    //       toast.warning(t('cannot.work.demo'));
+    //       return;
+    //     }
+    //     e.stopPropagation();
+    //     setId([item.id]);
+    //     setIsModalVisible(true);
+    //     setText(true);
+    //     setTabType(item.status);
+    //   }}
+    // />,
     <DownloadOutlined
       onClick={(e) => {
         e.stopPropagation();
         setDowloadModal(item.id);
+      }}
+    />,
+
+    <ClockCircleOutlined
+      onClick={(e) => {
+        // e.stopPropagation();
+        console.log('cooking click');
+        setCookingModal(item.id);
       }}
     />,
     <EyeOutlined

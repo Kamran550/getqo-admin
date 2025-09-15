@@ -28,6 +28,7 @@ const Incorporate = ({
   setIsModalVisible,
   setText,
   setDowloadModal,
+  setCookingModal,
   type,
   setTabType,
   setIsTransactionModalOpen,
@@ -218,6 +219,7 @@ const Incorporate = ({
                                     setIsModalVisible={setIsModalVisible}
                                     setText={setText}
                                     setDowloadModal={setDowloadModal}
+                                    setCookingModal={setCookingModal}
                                     setTabType={setTabType}
                                     setIsTransactionModalOpen={
                                       setIsTransactionModalOpen

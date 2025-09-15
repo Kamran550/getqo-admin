@@ -28,6 +28,9 @@ const orderService = {
     request.put(`payments/order/${id}/transactions`, data, { params }),
   updateOrderDetailStatus: (id, data) =>
     request.post(`dashboard/admin/order/details/${id}/status`, data),
+  setCookingTime(id, data) {
+    return request.post(`dashboard/admin/order/${id}/cooking-time`, data);
+  },
 };
 
 export default orderService;

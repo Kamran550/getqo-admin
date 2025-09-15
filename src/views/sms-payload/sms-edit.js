@@ -23,7 +23,7 @@ const options = [
   { title: 'firebase', value: 'firebase' },
   { title: 'twilio', value: 'twilio' },
   { title: 'smilesms', value: 'smilesms' },
-
+  { title: 'poctgoyercini', value: 'poctgoyercini' },
 ];
 
 export default function SmsPayloadEdit() {
@@ -406,6 +406,108 @@ export default function SmsPayloadEdit() {
                     </Form.Item>
                   </Col>
 
+                  <Col span={12}>
+                    <Form.Item
+                      label={t('default')}
+                      name='default'
+                      valuePropName='checked'
+                    >
+                      <Switch />
+                    </Form.Item>
+                  </Col>
+                </>
+              )}
+
+              {type === 'whatsapp' && (
+                <>
+                  <Col span={12}>
+                    <Form.Item
+                      label={t('twilio_auth_token')}
+                      name='twilio_auth_token'
+                      rules={[
+                        {
+                          required: true,
+                          message: t('required'),
+                        },
+                      ]}
+                    >
+                      <Input min={0} className='w-100' />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={12}>
+                    <Form.Item
+                      label={t('twilio_account_id')}
+                      name='twilio_account_id'
+                      rules={[
+                        {
+                          required: true,
+                          message: t('required'),
+                        },
+                      ]}
+                    >
+                      <Input className='w-100' />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={12}>
+                    <Form.Item
+                      label={t('twilio_number')}
+                      name='twilio_number'
+                      rules={[
+                        {
+                          required: true,
+                          message: t('required'),
+                        },
+                      ]}
+                    >
+                      <Input className='w-100' />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={12}>
+                    <Form.Item
+                      label={t('default')}
+                      name='default'
+                      valuePropName='checked'
+                    >
+                      <Switch />
+                    </Form.Item>
+                  </Col>
+                </>
+              )}
+
+              {type === 'poctgoyercini' && (
+                <>
+                  <Col span={12}>
+                    <Form.Item
+                      label={t('poctgoyercini_user')}
+                      name='poctgoyercini_user'
+                      rules={[
+                        {
+                          required: true,
+                          message: t('required'),
+                        },
+                      ]}
+                    >
+                      <Input min={0} className='w-100' />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={12}>
+                    <Form.Item
+                      label={t('poctgoyercini_pass')}
+                      name='poctgoyercini_pass'
+                      rules={[
+                        {
+                          required: true,
+                          message: t('required'),
+                        },
+                      ]}
+                    >
+                      <Input className='w-100' />
+                    </Form.Item>
+                  </Col>
                   <Col span={12}>
                     <Form.Item
                       label={t('default')}
