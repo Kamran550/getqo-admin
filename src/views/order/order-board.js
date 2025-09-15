@@ -3,6 +3,7 @@ import { Button, Space, Card, DatePicker, Modal } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ClearOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+
 import {
   addMenu,
   disableRefetch,
@@ -34,6 +35,9 @@ import OrderStatusModal from './orderStatusModal';
 import OrderDeliveryman from './orderDeliveryman';
 import ShowLocationsMap from './show-locations.map';
 import DownloadModal from './downloadModal';
+import CookingTimeModal from './cookingTimeModal';
+import CookingTimeModal2 from './cookingTimeModal2';
+
 import { toast } from 'react-toastify';
 import orderService from 'services/order';
 import { Context } from 'context/context';
@@ -67,6 +71,7 @@ export default function OrderBoard() {
   const [downloading, setDownLoading] = useState(false);
   const [orderDeliveryDetails, setOrderDeliveryDetails] = useState(null);
   const [tabType, setTabType] = useState(null);
+  const [cookingModal, setCookingModal] = useState(null);
 
   const goToEdit = (row) => {
     dispatch(clearOrder());
@@ -153,6 +158,19 @@ export default function OrderBoard() {
       .finally(() => setLoadingBtn(false));
   };
 
+  const handleCookingTimeSubmit = async (orderId, cookingTime) => {
+    try {
+      await orderService.setCookingTime(orderId, { cooking_time: cookingTime });
+      toast.success(t('Cooking time təyin olundu'));
+      setCookingModal(null);
+      fetchOrderAllItem();
+    } catch (error) {
+      console.log({ error });
+
+      toast.error(t(error?.response?.data?.message));
+    }
+  };
+
   useDidUpdate(() => {
     // dispatch(handleSearch(paramsData));
     dispatch(clearItems());
@@ -200,6 +218,7 @@ export default function OrderBoard() {
     setOrderDeliveryDetails(null);
     setLocationsMap(null);
     setDowloadModal(null);
+    setCookingModal(null);
   };
 
   async function fetchShops(search) {
@@ -292,6 +311,7 @@ export default function OrderBoard() {
 
   return (
     <>
+      <h1>Order Board</h1>
       <Space className='w-100 justify-content-end mb-3'>
         <OrderTypeSwitcher listType='orders-board' />
         <Button
@@ -372,6 +392,7 @@ export default function OrderBoard() {
         setIsModalVisible={setIsModalVisible}
         setText={setText}
         setDowloadModal={setDowloadModal}
+        setCookingModal={setCookingModal}
         type={type}
         setTabType={setTabType}
         setIsTransactionModalOpen={setIsTransactionModalOpen}
@@ -396,6 +417,14 @@ export default function OrderBoard() {
       {dowloadModal && (
         <DownloadModal id={dowloadModal} handleCancel={handleCloseModal} />
       )}
+      {cookingModal && (
+        <CookingTimeModal2
+          orderId={cookingModal}
+          handleCancel={handleCloseModal}
+          onSubmit={(id, time) => handleCookingTimeSubmit(id, time)}
+        />
+      )}
+
       {!!isTransactionModalOpen && (
         <Modal
           visible={!!isTransactionModalOpen}

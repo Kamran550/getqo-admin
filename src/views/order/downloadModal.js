@@ -45,6 +45,8 @@ const DownloadModal = ({ id, handleCancel }) => {
             </Button>,
           ]}
         >
+          <h1>Download edir</h1>
+
           <Row>
             <Col span={12}>
               <Card

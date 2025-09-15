@@ -23,6 +23,7 @@ const options = [
   { title: 'twilio', value: 'twilio' },
   { title: 'smilesms', value: 'smilesms' },
   { title: 'whatsapp', value: 'whatsapp' },
+  { title: 'poctgoyercini', value: 'poctgoyercini' },
 ];
 
 export default function SmsPayloadAdd() {
@@ -441,8 +442,50 @@ export default function SmsPayloadAdd() {
               </Col>
             </>
           )}
-        </Row>
 
+          {type === 'poctgoyercini' && (
+            <>
+              <Col span={12}>
+                <Form.Item
+                  label={t('poctgoyercini_user')}
+                  name='poctgoyercini_user'
+                  rules={[
+                    {
+                      required: true,
+                      message: t('required'),
+                    },
+                  ]}
+                >
+                  <Input min={0} className='w-100' />
+                </Form.Item>
+              </Col>
+
+              <Col span={12}>
+                <Form.Item
+                  label={t('poctgoyercini_pass')}
+                  name='poctgoyercini_pass'
+                  rules={[
+                    {
+                      required: true,
+                      message: t('required'),
+                    },
+                  ]}
+                >
+                  <Input className='w-100' />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  label={t('default')}
+                  name='default'
+                  valuePropName='checked'
+                >
+                  <Switch />
+                </Form.Item>
+              </Col>
+            </>
+          )}
+        </Row>
         <Space>
           <Button type='primary' htmlType='submit' loading={loadingBtn}>
             {t('submit')}
