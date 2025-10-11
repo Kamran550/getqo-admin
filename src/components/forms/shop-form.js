@@ -571,6 +571,15 @@ const ShopFormData = ({
                 <InputNumber min={0} className='w-100' />
               </Form.Item>
             </Col>
+            <Col span={12}>
+              <Form.Item
+                label={t('service.fee')}
+                name='service_fee'
+                rules={[{ required: true, message: t('required') }]}
+              >
+                <InputNumber min={0} className='w-100' />
+              </Form.Item>
+            </Col>
           </Row>
         </Card>
       </Col>
