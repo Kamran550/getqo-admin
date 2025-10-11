@@ -95,6 +95,7 @@ const ShopMain = ({ next, action_type = '', user }) => {
       type: values.type,
       free_delivery_price: values.free_delivery_price,
       max_small_order_fee: values.max_small_order_fee,
+      service_fee: values.service_fee,
     };
     delete body?.background_img;
     delete body?.logo_img;

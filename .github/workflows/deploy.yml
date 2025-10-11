@@ -1,0 +1,59 @@
+name: Deploy Admin Panel to Production
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'yarn'
+
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+
+    - name: Build application
+      run: yarn build
+      env:
+        NODE_ENV: production
+        CI: false
+        GENERATE_SOURCEMAP: false
+        REACT_APP_IS_DEMO: false
+        REACT_APP_BASE_URL: https://backend.getqo.az
+
+    - name: Create deployment package
+      run: |
+        tar -czf build.tar.gz -C build .
+
+    - name: Deploy to server
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        source: "build.tar.gz"
+        target: "/tmp/"
+
+    - name: Extract build files
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd /home/getqo-admin/htdocs/admin.getqo.az
+          rm -rf build/*
+          tar -xzf /tmp/build.tar.gz -C build/
+          rm /tmp/build.tar.gz
+          echo "Admin panel deployed successfully at $(date)"
