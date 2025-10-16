@@ -75,6 +75,8 @@ const ShopClone = () => {
             value: item,
             key: item,
           })),
+          payment_methods:
+            res?.data?.payment_methods?.map((item) => item.payment.tag) || [],
         };
         dispatch(setMenuData({ activeMenu, data }));
       })

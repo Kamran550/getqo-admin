@@ -31,6 +31,7 @@ import { MAP_API_KEY } from 'configs/app-global';
 import useGoogle from 'react-google-autocomplete/lib/usePlacesAutocompleteService';
 import getAddress from 'helpers/getAddress';
 import { orderPayments } from 'constants/index';
+import restPaymentService from 'services/rest/payment';
 
 const { SHOW_ALL } = TreeSelect;
 
@@ -51,6 +52,8 @@ const ShopFormData = ({
   const [userModal, setUserModal] = useState(null);
   const [category, setCategory] = useState(null);
   const [userRefetch, setUserRefetch] = useState(null);
+  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [loadingPayments, setLoadingPayments] = useState(false);
   const { defaultLang, languages } = useSelector(
     (state) => state.formLang,
     shallowEqual,
@@ -112,6 +115,42 @@ const ShopFormData = ({
       })),
     );
   }
+
+  async function fetchPaymentMethods() {
+    setLoadingPayments(true);
+    try {
+      const { data } = await restPaymentService.getAll();
+      const methods = data.map((item) => ({
+        label: item.tag
+          ? item.tag.charAt(0).toUpperCase() + item.tag.slice(1)
+          : 'N/A',
+        value: item.tag, // tag göndəririk, id yox
+      }));
+      setPaymentMethods(methods);
+    } catch (error) {
+      console.error('Error fetching payment methods:', error);
+    } finally {
+      setLoadingPayments(false);
+    }
+  }
+
+  React.useEffect(() => {
+    fetchPaymentMethods();
+  }, []);
+
+  // Payment methods yüklənəndən sonra formu yenilə
+  React.useEffect(() => {
+    if (
+      paymentMethods.length > 0 &&
+      activeMenu?.data?.payment_methods?.length > 0
+    ) {
+      console.log('Setting payment methods:', activeMenu.data.payment_methods);
+      console.log('Available options:', paymentMethods);
+      form.setFieldsValue({
+        payment_methods: activeMenu.data.payment_methods,
+      });
+    }
+  }, [paymentMethods, form, activeMenu?.data?.payment_methods]);
 
   const goToAddClient = () => {
     setUserModal(true);
@@ -445,6 +484,26 @@ const ShopFormData = ({
                 label={t('order.statuses.for.email.notifications')}
               >
                 <Select mode='multiple' options={emailStatusOptions} />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name='payment_methods'
+                label={t('payments')}
+                rules={[{ required: true, message: t('required') }]}
+              >
+                <Select
+                  mode='multiple'
+                  options={paymentMethods}
+                  loading={loadingPayments}
+                  placeholder={t('select.payment.methods')}
+                  showSearch
+                  filterOption={(input, option) =>
+                    (option?.label ?? '')
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                />
               </Form.Item>
             </Col>
           </Row>

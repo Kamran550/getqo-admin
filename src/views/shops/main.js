@@ -70,6 +70,16 @@ const ShopMain = ({ next, action_type = '', user }) => {
           })),
         )
       : [];
+
+    const payment_methods = values?.payment_methods?.length
+      ? Object.assign(
+          {},
+          ...values?.payment_methods?.map((item, index) => ({
+            [`payment_methods[${index}]`]: item,
+          })),
+        )
+      : [];
+
     const body = {
       ...values,
       'images[0]': logoImage[0]?.name,
@@ -91,6 +101,8 @@ const ShopMain = ({ next, action_type = '', user }) => {
         values?.order_payment?.value || values?.order_payment || undefined,
       ...email_statuses,
       emailStatuses: undefined,
+      ...payment_methods,
+      payment_methods: undefined,
       new_order_after_payment: values?.new_order_after_payment ? 1 : 0,
       type: values.type,
       free_delivery_price: values.free_delivery_price,
